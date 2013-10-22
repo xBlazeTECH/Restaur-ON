@@ -1,4 +1,4 @@
-waitress.js
-===========
+happiness.js
+============
 
-This is a control panel to be used for restaurants, to control reservations, orders, and seating.
+A node.js based CMS system.
