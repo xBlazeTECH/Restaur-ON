@@ -28,7 +28,7 @@ http.createServer(function (req, res) {
    });
   function processNode() {
      res.writeHead(200, {'Content-Type': 'text/html'});
-     res.write('<html><head><title>' + info.data + '</title></head>');
+     res.write('<html><head><title>' + info.title + '</title></head>');
      res.write('<body>');
      res.write('<h1>' + info.header + '</h1>');
      res.write(info.content);
