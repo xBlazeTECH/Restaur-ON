@@ -1,5 +1,5 @@
 {
   "title":"Waitress.js",
-  "header":"Thank you for using waitress.js",
-  "content":"<p>Hello, and thank you for attempting to use waitress.js! Unfortunatly, waitress.js is currently in a developmental state, and is not ready for full release yet! Please keep watching github for news about the program. Thanks again!"
+  "header":"Welcome to Waitress.js",
+  "content":"<p>Welcome to the web panel for waitress.js!</p><p><strong><em>Waitress.js is not finished yet! It is not ready for use!</em></strong></p><ul><li><a href=/index>Index Page</a></li><li><a href=/waitstaff>Waitstaff Dashboard</a></li><li><a href=/kitchen>Kitchen Dashboard</a></li><li><a href=/admin>Admin Dashboard</a></li></ul>"
 }
