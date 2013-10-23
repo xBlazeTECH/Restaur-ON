@@ -24,10 +24,12 @@ app.get('/', function(req, res){
   }
 });
 
+/* This is my way of using query. It is for my reference.
 app.get('/hi', function(req, res){
-  var body = 'Bye There!';
+  var body = req.query.body;
   res.end(body);
 });
+*/
 
 app.listen(3000);
 console.log('Listening on port 3000');
