@@ -1,5 +1,5 @@
 {
   "title":"Waitress.js",
   "header":"Welcome to Waitress.js",
-  "content":"<p>Welcome to the web panel for waitress.js!</p><p><strong><em>Waitress.js is not finished yet! It is not ready for use!</em></strong></p><ul><li><a href=/index>Index Page</a></li><li><a href=/waitstaff>Waitstaff Dashboard</a></li><li><a href=/kitchen>Kitchen Dashboard</a></li><li><a href=/admin>Admin Dashboard</a></li></ul>"
+  "content":"<p>Welcome to the web panel for waitress.js!</p><p><strong><em>Waitress.js is not finished yet! It is not ready for use!</em></strong></p><ul><li><a href=/>Home Page</a></li><li><a href=/waitstaff>Waitstaff Dashboard</a></li><li><a href=/kitchen>Kitchen Dashboard</a></li><li><a href=/admin>Admin Dashboard</a></li></ul>"
 }
