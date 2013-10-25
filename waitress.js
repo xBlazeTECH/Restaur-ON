@@ -5,6 +5,8 @@ var express = require('express');
 var app = express();
 app.use(connect.bodyParser());
 
+//Define Variable to be used Later!
+
 
 app.get('/', function(req, res){
   var path = __dirname + '/content/dashboard/homepage.json';
@@ -112,16 +114,20 @@ app.get('/auth', function(req, res){
 });
 
 app.post('/auth', function(req, res){
+  var username = req.body.user;
+  var password = req.body.pass;
+  
+  
   // The following line is used for debugging purposes only!
-  //console.log('Username: ' + req.body.user + ' Password: ' + req.body.pass);
+  console.log('Username: ' + username + ' Password: ' + password);
   var adminLoc = __dirname + '/profiles/admin.json';
   var waitstaffLoc = __dirname + '/profiles/waitstaff.json';
   var kitchenLoc = __dirname + '/profiles/kitchen.json';
   var managerLoc = __dirname + '/profiles/manager.json';
   
-  fs.readFile(path, 'utf8', function (err, data) {
+  fs.readFile(adminLoc, 'utf8', function (err, data) {
     if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      console.log('**ERROR: There was an error while loading the Admin Profiles!\n' + err);
       return;
     }
     info = null;
@@ -129,9 +135,9 @@ app.post('/auth', function(req, res){
     processAuth();
   });
   
-  fs.readFile(path, 'utf8', function (err, data) {
+  fs.readFile(waitstaffLoc, 'utf8', function (err, data) {
     if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      console.log('**ERROR: There was an error while loading the Waitstaff Profiles!\n' + err);
       return;
     }
     info = null;
@@ -139,9 +145,9 @@ app.post('/auth', function(req, res){
     processAuth();
   });
   
-  fs.readFile(path, 'utf8', function (err, data) {
+  fs.readFile(kitchenLoc, 'utf8', function (err, data) {
     if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      console.log('**ERROR: There was an error while loading the Kitchen Profiles!\n' + err);
       return;
     }
     info = null;
@@ -150,9 +156,9 @@ app.post('/auth', function(req, res){
   });
   
   
-  fs.readFile(path, 'utf8', function (err, data) {
+  fs.readFile(managerLoc, 'utf8', function (err, data) {
     if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      console.log('**ERROR: There was an error while loading the Manager Profiles!\n' + err);
       return;
     }
     info = null;
