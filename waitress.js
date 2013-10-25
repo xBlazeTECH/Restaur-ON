@@ -1,7 +1,10 @@
+var connect = require('connect');
 var fs = require('fs');
 var qs = require('querystring');
 var express = require('express');
 var app = express();
+app.use(connect.bodyParser());
+
 
 app.get('/', function(req, res){
   var path = __dirname + '/content/dashboard/homepage.json';
@@ -87,7 +90,7 @@ app.get('/admin', function(req, res){
   }
 });
 
-app.get('/login', function(req, res){
+app.get('/auth', function(req, res){
   var path = __dirname + '/content/util/login.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
@@ -107,6 +110,21 @@ app.get('/login', function(req, res){
     res.end('</body></html>');
   }
 });
+
+app.post('/auth', function(req, res){
+  // The following line is used for debugging purposes only!
+  //console.log('Username: ' + req.body.user + ' Password: ' + req.body.pass);
+  
+  
+  
+  
+  if (req.body.user == "user" && req.body.pass == "pass") {
+    res.send('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
+  } else {
+    res.send('Invalid Credentials!');
+  }
+});
+
 /* This is my way of using query. It is for my reference.
 app.get('/hi', function(req, res){
   var body = req.query.body;
