@@ -1,4 +1,21 @@
-{
-  "root":"somepass",
-  "other":"nopass"
+{"admin": {
+  "1": {
+     "username":"",
+     "password":"",
+   },
+  "2": {
+     "username":"",
+     "password":"",
+   }
+ },
+ "waitstaff": {
+  "1": {
+     "username":"",
+     "password":"",
+   },
+  "2": {
+     "username":"",
+     "password":"",
+   },
+ } 
 }

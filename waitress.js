@@ -114,63 +114,43 @@ app.get('/auth', function(req, res){
 });
 
 app.post('/auth', function(req, res){
-  var username = req.body.user;
-  var password = req.body.pass;
-  
+  var usernameIn = req.body.user;
+  var passwordIn = req.body.pass;
   
   // The following line is used for debugging purposes only!
-  console.log('Username: ' + username + ' Password: ' + password);
-  var adminLoc = __dirname + '/profiles/admin.json';
-  var waitstaffLoc = __dirname + '/profiles/waitstaff.json';
-  var kitchenLoc = __dirname + '/profiles/kitchen.json';
-  var managerLoc = __dirname + '/profiles/manager.json';
+  console.log('Username: ' + usernameIn + ' Password: ' + passwordIn);
+  var adminLoc = __dirname + '/profiles/admin/' + usernameIn + '.json';
+  var waitstaffLoc = __dirname + '/profiles/waitstaff/' + usernameIn + '.json';
+  var kitchenLoc = __dirname + '/profiles/kitchen/' + usernameIn + '.json';
+  var managerLoc = __dirname + '/profiles/manager/' + usernameIn + '.json';
   
   fs.readFile(adminLoc, 'utf8', function (err, data) {
+    console.log('System is now looking into ' + usernameIn + '...' );
     if (err) {
-      console.log('**ERROR: There was an error while loading the Admin Profiles!\n' + err);
-      return;
+      if (e.code === 'ENOENT') {
+        console.log('User is not in the Admin List!');
+      } else {
+        console.log('An Unspecified Error Has Occured!');
+        throw e;
+      }
     }
-    info = null;
-    info = JSON.parse(data);
+    userInfo = null;
+    userInfo = JSON.parse(data);
     processAuth();
   });
-  
-  fs.readFile(waitstaffLoc, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading the Waitstaff Profiles!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processAuth();
-  });
-  
-  fs.readFile(kitchenLoc, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading the Kitchen Profiles!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processAuth();
-  });
-  
-  
-  fs.readFile(managerLoc, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading the Manager Profiles!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processAuth();
-  });
-  function processAuth() {
-    if (req.body.user == "user" && req.body.pass == "pass") {
+
+  function processAuth() {   
+    
+    
+    if (usernameIn == "user" && passwordIn == "pass") {
       res.send('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
     } else {
       res.send('Invalid Credentials!');
     }
+  }
+
+  function authFail() {
+
   }
 });
 
