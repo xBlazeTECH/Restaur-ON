@@ -114,14 +114,57 @@ app.get('/auth', function(req, res){
 app.post('/auth', function(req, res){
   // The following line is used for debugging purposes only!
   //console.log('Username: ' + req.body.user + ' Password: ' + req.body.pass);
+  var adminLoc = __dirname + '/profiles/admin.json';
+  var waitstaffLoc = __dirname + '/profiles/waitstaff.json';
+  var kitchenLoc = __dirname + '/profiles/kitchen.json';
+  var managerLoc = __dirname + '/profiles/manager.json';
+  
+  fs.readFile(path, 'utf8', function (err, data) {
+    if (err) {
+      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      return;
+    }
+    info = null;
+    info = JSON.parse(data);
+    processAuth();
+  });
+  
+  fs.readFile(path, 'utf8', function (err, data) {
+    if (err) {
+      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      return;
+    }
+    info = null;
+    info = JSON.parse(data);
+    processAuth();
+  });
+  
+  fs.readFile(path, 'utf8', function (err, data) {
+    if (err) {
+      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      return;
+    }
+    info = null;
+    info = JSON.parse(data);
+    processAuth();
+  });
   
   
-  
-  
-  if (req.body.user == "user" && req.body.pass == "pass") {
-    res.send('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
-  } else {
-    res.send('Invalid Credentials!');
+  fs.readFile(path, 'utf8', function (err, data) {
+    if (err) {
+      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
+      return;
+    }
+    info = null;
+    info = JSON.parse(data);
+    processAuth();
+  });
+  function processAuth() {
+    if (req.body.user == "user" && req.body.pass == "pass") {
+      res.send('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
+    } else {
+      res.send('Invalid Credentials!');
+    }
   }
 });
 
