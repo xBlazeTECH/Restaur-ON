@@ -130,10 +130,10 @@ app.post('/auth', function(req, res){
       console.log('System is now looking into ' + usernameIn + '...');
       if (err) {
         console.log('User was not found in the Admin List');
-        console.log('Continuing to research' + usernameIn + '...');
+        console.log('Continuing to research ' + usernameIn + '...');
         isManager();
       } else {
-        console.log('We have got an Admin!');
+        console.log('We have got an Admin user!');
         var userInfo = JSON.parse(data);
         authenticate();
       }
@@ -146,10 +146,10 @@ app.post('/auth', function(req, res){
       console.log('System is now looking into ' + usernameIn + '...' );
       if (err) {
         console.log('User was not found in the Manager List');
-        console.log('Continuing to research' + usernameIn + '...');
+        console.log('Continuing to research ' + usernameIn + '...');
         isKitchen();
       } else {
-        console.log('We have got a Manager!');
+        console.log('We have got a Manager user!');
         var userInfo = JSON.parse(data);
         authenticate();
       }
@@ -157,48 +157,45 @@ app.post('/auth', function(req, res){
   }
 
   function isKitchen() {
-    console.log('Checking to see if user is on the Admin list...!);
+    console.log('Checking to see if user is on the Kitchen list...!);
     fs.readFile(adminLoc, 'utf8', function (err, data) {
       console.log('System is now looking into ' + usernameIn + '...' );
       if (err) {
-        console.log('User was not found in the Admin List');
-        console.log('Hang on, not working!');
+        console.log('User was not found in the Kitchen List');
+        console.log('Continuing to research ' + usernameIn + '...');
+        isKitchen();
       } else {
-        console.log('WE HAVE AN ADMIN!');
+        console.log('We have got a Kitchen user!');
         var userInfo = JSON.parse(data);
         authenticate();
       }
     });
   }
 
-  function isAdmin() {
-    console.log('Checking to see if user is on the Admin list...!);
+  function isWaitstaff() {
+    console.log('Checking to see if user is on the Waitstaff list...!);
     fs.readFile(adminLoc, 'utf8', function (err, data) {
       console.log('System is now looking into ' + usernameIn + '...' );
       if (err) {
-        console.log('User was not found in the Admin List');
-        console.log('Hang on, not working!');
+        console.log('User was not found in the Waitstaff List');
+        console.log('Continuing to research ' + usernameIn + '...');
+        isKitchen();
       } else {
-        console.log('WE HAVE AN ADMIN!');
+        console.log('We have got a Waitstaff user!');
         var userInfo = JSON.parse(data);
         authenticate();
       }
       authenticate();
     });
   }
-*/
 
   function authenticate() {   
     
     if (usernameIn == "root" && passwordIn == "pass") {
       res.send('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
     } else {
-      res.send('Invalid Credentials!');
+      res.send('Your Username or Password was Incorrect!')
     }
-  }
-
-  function authFail() {
-
   }
 });
 
