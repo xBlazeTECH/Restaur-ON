@@ -123,6 +123,9 @@ app.post('/auth', function(req, res){
   var managerLoc = __dirname + '/profiles/manager/' + usernameIn + '.json';
   var waitstaffLoc = __dirname + '/profiles/waitstaff/' + usernameIn + '.json';
   var kitchenLoc = __dirname + '/profiles/kitchen/' + usernameIn + '.json';
+
+  isAdmin();
+
   
   function isAdmin() {
     console.log('Checking to see if user is on the Admin list...');
@@ -163,7 +166,7 @@ app.post('/auth', function(req, res){
       if (err) {
         console.log('User was not found in the Kitchen List');
         console.log('Continuing to research ' + usernameIn + '...');
-        isKitchen();
+        isWaitstaff();
       } else {
         console.log('We have got a Kitchen user!');
         var userInfo = JSON.parse(data);
@@ -179,7 +182,7 @@ app.post('/auth', function(req, res){
       if (err) {
         console.log('User was not found in the Waitstaff List');
         console.log('Continuing to research ' + usernameIn + '...');
-        isKitchen();
+        authenticate();
       } else {
         console.log('We have got a Waitstaff user!');
         var userInfo = JSON.parse(data);
