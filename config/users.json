@@ -1,0 +1,21 @@
+{"admin": {
+  "uid1": {
+     "username":"",
+     "password":"",
+   },
+  "uid2": {
+     "username":"",
+     "password":"",
+   },
+ },
+ "waitstaff": {
+  "uid1": {
+     "username":"",
+     "password":"",
+   },
+  "uid2": {
+     "username":"",
+     "password":"",
+   },
+ } 
+}
