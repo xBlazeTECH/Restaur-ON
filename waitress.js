@@ -9,7 +9,7 @@ app.use(connect.bodyParser());
 
 
 app.get('/', function(req, res){
-  var path = __dirname + '/content/dashboard/homepage.json';
+  var path = __dirname + '/system/content/dashboard/homepage.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
       console.log('**ERROR: There was an error while loading homepage content!\n' + err);
@@ -30,7 +30,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/waitstaff', function(req, res){
-  var path = __dirname + '/content/dashboard/waitstaff.json';
+  var path = __dirname + '/system/content/dashboard/waitstaff.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
       console.log('**ERROR: There was an error while loading homepage content!\n' + err);
@@ -51,7 +51,7 @@ app.get('/waitstaff', function(req, res){
 });
 
 app.get('/kitchen', function(req, res){
-  var path = __dirname + '/content/dashboard/kitchen.json';
+  var path = __dirname + '/system/content/dashboard/kitchen.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
       console.log('**ERROR: There was an error while loading homepage content!\n' + err);
@@ -72,7 +72,7 @@ app.get('/kitchen', function(req, res){
 });
 
 app.get('/admin', function(req, res){
-  var path = __dirname + '/content/dashboard/admin.json';
+  var path = __dirname + '/system/content/dashboard/admin.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
       console.log('**ERROR: There was an error while loading homepage content!\n' + err);
@@ -93,7 +93,7 @@ app.get('/admin', function(req, res){
 });
 
 app.get('/auth', function(req, res){
-  var path = __dirname + '/content/util/login.json';
+  var path = __dirname + '/system/content/util/login.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
       console.log('**ERROR: There was an error while loading homepage content!\n' + err);
@@ -119,10 +119,10 @@ app.post('/auth', function(req, res){
   
   // The following line is used for debugging purposes only!
   console.log('Username: ' + usernameIn + ' Password: ' + passwordIn);
-  var adminLoc = __dirname + '/profiles/admin/' + usernameIn + '.json';
-  var managerLoc = __dirname + '/profiles/manager/' + usernameIn + '.json';
-  var waitstaffLoc = __dirname + '/profiles/waitstaff/' + usernameIn + '.json';
-  var kitchenLoc = __dirname + '/profiles/kitchen/' + usernameIn + '.json';
+  var adminLoc = __dirname + '/system/profiles/admin/' + usernameIn + '.json';
+  var managerLoc = __dirname + '/system/profiles/manager/' + usernameIn + '.json';
+  var waitstaffLoc = __dirname + '/system/profiles/waitstaff/' + usernameIn + '.json';
+  var kitchenLoc = __dirname + '/system/profiles/kitchen/' + usernameIn + '.json';
 
   isAdmin();
 
