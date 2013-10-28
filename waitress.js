@@ -141,7 +141,7 @@ app.post('/auth', function(req, res){
   }
 
   function isManager() {
-    console.log('Checking to see if user is on the Manager list...!);
+    console.log('Checking to see if user is on the Manager list...!');
     fs.readFile(adminLoc, 'utf8', function (err, data) {
       console.log('System is now looking into ' + usernameIn + '...' );
       if (err) {
@@ -157,7 +157,7 @@ app.post('/auth', function(req, res){
   }
 
   function isKitchen() {
-    console.log('Checking to see if user is on the Kitchen list...!);
+    console.log('Checking to see if user is on the Kitchen list...!');
     fs.readFile(adminLoc, 'utf8', function (err, data) {
       console.log('System is now looking into ' + usernameIn + '...' );
       if (err) {
@@ -173,7 +173,7 @@ app.post('/auth', function(req, res){
   }
 
   function isWaitstaff() {
-    console.log('Checking to see if user is on the Waitstaff list...!);
+    console.log('Checking to see if user is on the Waitstaff list...!');
     fs.readFile(adminLoc, 'utf8', function (err, data) {
       console.log('System is now looking into ' + usernameIn + '...' );
       if (err) {
