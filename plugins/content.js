@@ -1,2 +1,0 @@
-var output = "<html><head>";
-

@@ -1,5 +1,0 @@
-{
-  "title":"Waitress.js - User Login",
-  "header":"User Login",
-  "content":"<p>Welcome to the user login page!</p><form action='/auth' method='post'><fieldset><label for='user'>Username:</label><input type='text' id='user' name='user' placeholder='Enter your Username' /><label for='pass'>Password:</label><input type='password' id='pass' name='pass' /><input type='submit' value='Login' /></fieldset>"
-}
