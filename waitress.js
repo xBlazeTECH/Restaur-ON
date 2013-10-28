@@ -116,10 +116,27 @@ app.get('/auth', function(req, res){
 app.post('/auth', function(req, res){
   var usernameIn = req.body.user;
   var passwordIn = req.body.pass;
+  var profileLoc = __dirname + '/system/users/' + usernameIn + '.json';
+  
+  fs.readFile(profileLoc, 'utf8', function (err, data) {
+    console.log('System is now looking for ' + usernameIn + '...');
+    if (err) {
+      console.log('User file not found for ' + usernameIn + '!');
+      console.log('Displaying Authentication Failure Notice!');
+      res.send('Your Username or Password was Incorrect!');
+    } else {
+      console.log('We found a profile for the user!');
+      var userInfo = JSON.parse(data);
+      authenticate();
+    }
+  });
+  
+  
+  
   
   // The following line is used for debugging purposes only!
   console.log('Username: ' + usernameIn + ' Password: ' + passwordIn);
-  var adminLoc = __dirname + '/system/profiles/admin/' + usernameIn + '.json';
+
   var managerLoc = __dirname + '/system/profiles/manager/' + usernameIn + '.json';
   var waitstaffLoc = __dirname + '/system/profiles/waitstaff/' + usernameIn + '.json';
   var kitchenLoc = __dirname + '/system/profiles/kitchen/' + usernameIn + '.json';
