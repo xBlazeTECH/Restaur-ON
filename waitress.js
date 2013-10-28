@@ -120,39 +120,73 @@ app.post('/auth', function(req, res){
   // The following line is used for debugging purposes only!
   console.log('Username: ' + usernameIn + ' Password: ' + passwordIn);
   var adminLoc = __dirname + '/profiles/admin/' + usernameIn + '.json';
+  var managerLoc = __dirname + '/profiles/manager/' + usernameIn + '.json';
   var waitstaffLoc = __dirname + '/profiles/waitstaff/' + usernameIn + '.json';
   var kitchenLoc = __dirname + '/profiles/kitchen/' + usernameIn + '.json';
-  var managerLoc = __dirname + '/profiles/manager/' + usernameIn + '.json';
   
- /*
-  function isAdmin(user) {
+  function isAdmin() {
+    console.log('Checking to see if user is on the Admin list...');
+    fs.readFile(adminLoc, 'utf8', function (err, data) {
+      console.log('System is now looking into ' + usernameIn + '...');
+      if (err) {
+        console.log('User was not found in the Admin List');
+        console.log('Continuing to research' + usernameIn + '...');
+        isManager();
+      } else {
+        console.log('We have got an Admin!');
+        var userInfo = JSON.parse(data);
+        authenticate();
+      }
+    });
+  }
+
+  function isManager() {
+    console.log('Checking to see if user is on the Manager list...!);
+    fs.readFile(adminLoc, 'utf8', function (err, data) {
+      console.log('System is now looking into ' + usernameIn + '...' );
+      if (err) {
+        console.log('User was not found in the Manager List');
+        console.log('Continuing to research' + usernameIn + '...');
+        isKitchen();
+      } else {
+        console.log('We have got a Manager!');
+        var userInfo = JSON.parse(data);
+        authenticate();
+      }
+    });
+  }
+
+  function isKitchen() {
     console.log('Checking to see if user is on the Admin list...!);
+    fs.readFile(adminLoc, 'utf8', function (err, data) {
+      console.log('System is now looking into ' + usernameIn + '...' );
+      if (err) {
+        console.log('User was not found in the Admin List');
+        console.log('Hang on, not working!');
+      } else {
+        console.log('WE HAVE AN ADMIN!');
+        var userInfo = JSON.parse(data);
+        authenticate();
+      }
+    });
   }
 
-  function isWaitstaff(user) {
-    console.log('Checking to see if user is on the Waitstaff list...');
-  }
-
-  function isKitchen(user) {
-    console.log('Checking to see if user is on the Kitchen list...');
-  }
-
-  function isManager(user) {
-    console.log('Checking to see if user is on the Manager list...');
+  function isAdmin() {
+    console.log('Checking to see if user is on the Admin list...!);
+    fs.readFile(adminLoc, 'utf8', function (err, data) {
+      console.log('System is now looking into ' + usernameIn + '...' );
+      if (err) {
+        console.log('User was not found in the Admin List');
+        console.log('Hang on, not working!');
+      } else {
+        console.log('WE HAVE AN ADMIN!');
+        var userInfo = JSON.parse(data);
+        authenticate();
+      }
+      authenticate();
+    });
   }
 */
-
-  fs.readFile(adminLoc, 'utf8', function (err, data) {
-    console.log('System is now looking into ' + usernameIn + '...' );
-    if (err) {
-      console.log('User was not found in the Admin List');
-      console.log('Hang on, not working!');
-    } else {
-      console.log('WE HAVE AN ADMIN!');
-      var userInfo = JSON.parse(data);
-    }
-    authenticate();
-  });
 
   function authenticate() {   
     
