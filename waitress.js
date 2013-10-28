@@ -124,25 +124,39 @@ app.post('/auth', function(req, res){
   var kitchenLoc = __dirname + '/profiles/kitchen/' + usernameIn + '.json';
   var managerLoc = __dirname + '/profiles/manager/' + usernameIn + '.json';
   
+ /*
+  function isAdmin(user) {
+    console.log('Checking to see if user is on the Admin list...!);
+  }
+
+  function isWaitstaff(user) {
+    console.log('Checking to see if user is on the Waitstaff list...');
+  }
+
+  function isKitchen(user) {
+    console.log('Checking to see if user is on the Kitchen list...');
+  }
+
+  function isManager(user) {
+    console.log('Checking to see if user is on the Manager list...');
+  }
+*/
+
   fs.readFile(adminLoc, 'utf8', function (err, data) {
     console.log('System is now looking into ' + usernameIn + '...' );
     if (err) {
-      if (e.code === 'ENOENT') {
-        console.log('User is not in the Admin List!');
-      } else {
-        console.log('An Unspecified Error Has Occured!');
-        throw e;
-      }
+      console.log('User was not found in the Admin List');
+      console.log('Hang on, not working!');
+    } else {
+      console.log('WE HAVE AN ADMIN!');
+      var userInfo = JSON.parse(data);
     }
-    userInfo = null;
-    userInfo = JSON.parse(data);
-    processAuth();
+    authenticate();
   });
 
-  function processAuth() {   
+  function authenticate() {   
     
-    
-    if (usernameIn == "user" && passwordIn == "pass") {
+    if (usernameIn == "root" && passwordIn == "pass") {
       res.send('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
     } else {
       res.send('Invalid Credentials!');

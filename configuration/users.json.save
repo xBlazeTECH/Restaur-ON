@@ -1,0 +1,18 @@
+{"admins": {
+   "abbreviation": "SPA",
+   "latitude":-13.32,
+   "longitude":-89.99,
+   "markerImage": "flags/us.png",
+   "information": "South Pole",
+  },
+
+.... lots more of these in between ....
+
+{
+   "abbreviation": "ALE",
+   "latitude":-62.5,
+   "longitude":82.5,
+   "markerImage": "flags/us.png",
+   "information": "Alert",
+  },
+] }
