@@ -1,11 +1,16 @@
+
+// Make sure that we have everything we need!
 var connect = require('connect');
 var fs = require('fs');
 var qs = require('querystring');
 var express = require('express');
+
+// Set Up Express Application!
 var app = express();
 app.use(connect.bodyParser());
+app.use(express.cookieParser());
 
-//Define Variable to be used Later!
+// Define Variable to be used Later!
 
 
 app.get('/', function(req, res){
@@ -113,7 +118,13 @@ app.get('/auth', function(req, res){
   }
 });
 
-app.post('/auth', function(req, res){
+app.post('/logout', function(req, res){
+  res.clearCookie('loggedin');
+  res.cookie('loggedIn', 'false', { maxAge: 900000, httpOnly: true });
+}
+
+app.post('/login', function(req, res){
+  var logout = 
   var usernameIn = req.body.user;
   var passwordIn = req.body.pass;
   var profileLoc = __dirname + '/system/users/' + usernameIn + '.json';
@@ -131,83 +142,8 @@ app.post('/auth', function(req, res){
     }
   });
   
-  
-  
-  
   // The following line is used for debugging purposes only!
   console.log('Username: ' + usernameIn + ' Password: ' + passwordIn);
-
-  var managerLoc = __dirname + '/system/profiles/manager/' + usernameIn + '.json';
-  var waitstaffLoc = __dirname + '/system/profiles/waitstaff/' + usernameIn + '.json';
-  var kitchenLoc = __dirname + '/system/profiles/kitchen/' + usernameIn + '.json';
-
-  isAdmin();
-
-  
-  function isAdmin() {
-    console.log('Checking to see if user is on the Admin list...');
-    fs.readFile(adminLoc, 'utf8', function (err, data) {
-      console.log('System is now looking into ' + usernameIn + '...');
-      if (err) {
-        console.log('User was not found in the Admin List');
-        console.log('Continuing to research ' + usernameIn + '...');
-        isManager();
-      } else {
-        console.log('We have got an Admin user!');
-        var userInfo = JSON.parse(data);
-        authenticate();
-      }
-    });
-  }
-
-  function isManager() {
-    console.log('Checking to see if user is on the Manager list...!');
-    fs.readFile(adminLoc, 'utf8', function (err, data) {
-      console.log('System is now looking into ' + usernameIn + '...' );
-      if (err) {
-        console.log('User was not found in the Manager List');
-        console.log('Continuing to research ' + usernameIn + '...');
-        isKitchen();
-      } else {
-        console.log('We have got a Manager user!');
-        var userInfo = JSON.parse(data);
-        authenticate();
-      }
-    });
-  }
-
-  function isKitchen() {
-    console.log('Checking to see if user is on the Kitchen list...!');
-    fs.readFile(adminLoc, 'utf8', function (err, data) {
-      console.log('System is now looking into ' + usernameIn + '...' );
-      if (err) {
-        console.log('User was not found in the Kitchen List');
-        console.log('Continuing to research ' + usernameIn + '...');
-        isWaitstaff();
-      } else {
-        console.log('We have got a Kitchen user!');
-        var userInfo = JSON.parse(data);
-        authenticate();
-      }
-    });
-  }
-
-  function isWaitstaff() {
-    console.log('Checking to see if user is on the Waitstaff list...!');
-    fs.readFile(adminLoc, 'utf8', function (err, data) {
-      console.log('System is now looking into ' + usernameIn + '...' );
-      if (err) {
-        console.log('User was not found in the Waitstaff List');
-        console.log('Continuing to research ' + usernameIn + '...');
-        authenticate();
-      } else {
-        console.log('We have got a Waitstaff user!');
-        var userInfo = JSON.parse(data);
-        authenticate();
-      }
-      authenticate();
-    });
-  }
 
   function authenticate() {   
     
