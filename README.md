@@ -8,10 +8,17 @@ A node.js based system for resturants that handles reservations, table arrangeme
 To-Do List
 ----------
 [ ] Table Arrangements
+
 [ ] Billing and Payment
+
 [ ] Reservations (Call In)
+
 [ ] User Authentication with Diff. Roles
+
 [ ] Texts when seat is ready
+
 [ ] Calls when seat is ready
+
 [ ] Mobile menu for use by Patrons
+
 [ ] And more...
