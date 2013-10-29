@@ -9,7 +9,7 @@ var app = express();
 app.use(connect.bodyParser());
 app.use(express.cookieParser());
 //app.use(express.session());
-app.use(express.session({secret: "alphaalpha"});
+app.use(express.session({secret: "alphaalpha"}));
 
 // Define Variable to be used Later!
 
@@ -27,10 +27,17 @@ app.get('/', function(req, res){
    });
   function processNode() {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<html><head><title>' + info.title + '</title></head>');
-    res.write('<body>');
-    res.write('<h1>' + info.header + '</h1>');
-    res.write(info.content);
+    var array = fs.readFileSync(__dirname + '/system/content/page/homepage.html').toString().split("\n");
+    for(i in array) {
+        res.write(array[i]);
+    }
+    //res.writeHead(200, {'Content-Type': 'text/html'});
+    //res.sendfile(__dirname + '/system/content/blocks/header.html');
+    //res.write('<head><title>' + info.title + '</title></head>');
+    //res.write('<body>');
+    //res.sendfile(__dirname + '/system/content/blocks/mainmenu.html');
+    //res.sendfile(__dirname + '/system/content/blocks/sidemenu.html');
+    //res.sendfile(__dirname + '/system/content/page/homepage.json');
     res.end('</body></html>');
   }
 });
@@ -99,6 +106,7 @@ app.get('/admin', function(req, res){
 });
 
 app.get('/login', function(req, res){
+  /*
   var path = __dirname + '/system/content/util/login.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
@@ -117,6 +125,8 @@ app.get('/login', function(req, res){
     res.write(info.content);
     res.end('</body></html>');
   }
+  */
+  res.sendfile(__dirname + '/system/content/util/login.html');
 });
 
 app.post('/logout', function(req, res){
