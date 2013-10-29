@@ -41,90 +41,107 @@ app.get('/', function(req, res){
 });
 
 app.get('/waitstaff', function(req, res){
-  var path = __dirname + '/system/content/dashboard/waitstaff.json';
-    fs.readFile(path, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processNode();
-   });
-  function processNode() {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<html><head><title>' + info.title + '</title></head>');
-    res.write('<body>');
-    res.write('<h1>' + info.header + '</h1>');
-    res.write(info.content);
-    res.end('</body></html>');
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
   }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/dashboard/waitstaff.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  res.end('</body></html>');
 });
 
 app.get('/kitchen', function(req, res){
-  var path = __dirname + '/system/content/dashboard/kitchen.json';
-    fs.readFile(path, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processNode();
-   });
-  function processNode() {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<html><head><title>' + info.title + '</title></head>');
-    res.write('<body>');
-    res.write('<h1>' + info.header + '</h1>');
-    res.write(info.content);
-    res.end('</body></html>');
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
   }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/dashboard/kitchen.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  res.end('</body></html>');
 });
 
 app.get('/admin', function(req, res){
-  var path = __dirname + '/system/content/dashboard/admin.json';
-    fs.readFile(path, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processNode();
-   });
-  function processNode() {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<html><head><title>' + info.title + '</title></head>');
-    res.write('<body>');
-    res.write('<h1>' + info.header + '</h1>');
-    res.write(info.content);
-    res.end('</body></html>');
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
   }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/admin/admin.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  res.end('</body></html>');
 });
 
 app.get('/login', function(req, res){
-  /*
-  var path = __dirname + '/system/content/util/login.json';
-    fs.readFile(path, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processNode();
-   });
-  function processNode() {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<html><head><title>' + info.title + '</title></head>');
-    res.write('<body>');
-    res.write('<h1>' + info.header + '</h1>');
-    res.write(info.content);
-    res.end('</body></html>');
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
   }
-  */
-  res.sendfile(__dirname + '/system/content/util/login.html');
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/util/login.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  res.end('</body></html>');
 });
 
 app.post('/logout', function(req, res){
@@ -153,12 +170,30 @@ app.post('/login', function(req, res){
   console.log('Username: ' + usernameIn + ' Password: ' + passwordIn);
 
   function authenticate() {   
+    res.writeHead(200, {'Content-Type': 'text/html'});
+  
+    var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
+    for(i in array) {
+        res.write(array[i]);
+    }
     
+    var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
+    for(i in array) {
+        res.write(array[i]);
+    }
+  
+    var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
+    for(i in array) {
+        res.write(array[i]);
+    }
+  
     if (usernameIn == "root" && passwordIn == "pass") {
       res.send('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
     } else {
       res.send('Your Username or Password was Incorrect!')
     }
+    
+    res.end('</body></html>');
   }
 });
 
