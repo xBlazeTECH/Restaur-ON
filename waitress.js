@@ -15,31 +15,30 @@ app.use(express.session({secret: "alphaalpha"}));
 
 
 app.get('/', function(req, res){
-  var path = __dirname + '/system/content/dashboard/homepage.json';
-    fs.readFile(path, 'utf8', function (err, data) {
-    if (err) {
-      console.log('**ERROR: There was an error while loading homepage content!\n' + err);
-      return;
-    }
-    info = null;
-    info = JSON.parse(data);
-    processNode();
-   });
-  function processNode() {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    var array = fs.readFileSync(__dirname + '/system/content/page/homepage.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i]);
-    }
-    //res.writeHead(200, {'Content-Type': 'text/html'});
-    //res.sendfile(__dirname + '/system/content/blocks/header.html');
-    //res.write('<head><title>' + info.title + '</title></head>');
-    //res.write('<body>');
-    //res.sendfile(__dirname + '/system/content/blocks/mainmenu.html');
-    //res.sendfile(__dirname + '/system/content/blocks/sidemenu.html');
-    //res.sendfile(__dirname + '/system/content/page/homepage.json');
-    res.end('</body></html>');
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
   }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  var array = fs.readFileSync(__dirname + '/system/content/page/homepage.html').toString().split("\n");
+  for(i in array) {
+      res.write(array[i]);
+  }
+  
+  res.end('</body></html>');
+}
 });
 
 app.get('/waitstaff', function(req, res){
