@@ -8,7 +8,8 @@ var express = require('express');
 var app = express();
 app.use(connect.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session());
+//app.use(express.session());
+app.use(express.session({secret: "alphaalpha"});
 
 // Define Variable to be used Later!
 
