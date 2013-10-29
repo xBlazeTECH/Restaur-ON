@@ -121,10 +121,9 @@ app.get('/auth', function(req, res){
 app.post('/logout', function(req, res){
   res.clearCookie('loggedin');
   res.cookie('loggedIn', 'false', { maxAge: 900000, httpOnly: true });
-}
+});
 
 app.post('/login', function(req, res){
-  var logout = 
   var usernameIn = req.body.user;
   var passwordIn = req.body.pass;
   var profileLoc = __dirname + '/system/users/' + usernameIn + '.json';
