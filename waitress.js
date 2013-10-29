@@ -1,4 +1,3 @@
-
 // Make sure that we have everything we need!
 var connect = require('connect');
 var fs = require('fs');
@@ -97,7 +96,7 @@ app.get('/admin', function(req, res){
   }
 });
 
-app.get('/auth', function(req, res){
+app.get('/login', function(req, res){
   var path = __dirname + '/system/content/util/login.json';
     fs.readFile(path, 'utf8', function (err, data) {
     if (err) {
@@ -120,7 +119,6 @@ app.get('/auth', function(req, res){
 
 app.post('/logout', function(req, res){
   res.clearCookie('loggedin');
-  res.cookie('loggedIn', 'false', { maxAge: 900000, httpOnly: true });
 });
 
 app.post('/login', function(req, res){
