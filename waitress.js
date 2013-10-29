@@ -38,7 +38,6 @@ app.get('/', function(req, res){
   }
   
   res.end('</body></html>');
-}
 });
 
 app.get('/waitstaff', function(req, res){
