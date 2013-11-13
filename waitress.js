@@ -1,8 +1,8 @@
 // Make sure that we have everything we need!
+var express = require('express');
 var connect = require('connect');
 var fs = require('fs');
 var qs = require('querystring');
-var express = require('express');
 
 // Set Up Express Application!
 var app = express();
@@ -12,46 +12,53 @@ app.use(express.cookieParser());
 //app.use(express.session());
 app.use(express.session({secret: "alphaalpha"}));
 
-// Define Variable to be used Later!
+// Create your databases should they not exist.
+//var ordersDB = new sqlite3.Database(__dirname + "/system/databases/orders.db");
+
+//  ordersDB.serialize(function() {
+//  usersDB.run("CREATE TABLE orders (id AutoNumber)");
+
+//  var stmt = usersDB.prepare("INSERT INTO lorem VALUES (?)");
+//  for (var i = 0; i < 10; i++) {
+//      stmt.run("Ipsum " + i);
+//  }
+//  stmt.finalize();
+
+//  usersDB.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
+//      console.log(row.id + ": " + row.info);
+//  });
+//});
+
+//usersDB.close();
 
 
 app.get('/', function(req, res){
 
+  var autoReload = req.query.ar;
+  
+  console.log(autoReload);
   res.writeHead(200, {'Content-Type': 'text/html'});
 
-  if(req.session.areload) {
-    if(req.session.areload == "true") {
-      res.write("<head>");
-      res.write("<!--AutoReload is ON-->");
-      res.write('<meta http-equiv="refresh" content="5"/>');
-      res.write('');
-    }
-  } else {
-
-    var array = fs.readFileSync(__dirname + '/system/content/util/waitstaff-login.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i]);
-    }
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/util/autorefresh.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
+  if(req.query.ar == "true") {
+    res.write("<head>");
+    res.write("<!--AutoReload is ON-->");
+    res.write('<meta http-equiv="refresh" content="5"/>');
+    res.write('');
   }
   
   var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
   
   var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
   
   var array = fs.readFileSync(__dirname + '/system/content/page/homepage.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
   
   res.end('</body></html>');
@@ -63,12 +70,12 @@ app.get('/waitstaff', function(req, res){
  
   var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
 
   var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
 
   if(req.session.wauth) {
@@ -80,7 +87,7 @@ app.get('/waitstaff', function(req, res){
 
     var array = fs.readFileSync(__dirname + '/system/content/util/waitstaff-login.html').toString().split("\n");
     for(i in array) {
-        res.write(array[i]);
+        res.write(array[i] + "\n");
     }
   }
   
@@ -111,12 +118,12 @@ app.post('/waitstaff', function(req, res){
   
     var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
     for(i in array) {
-        res.write(array[i]);
+        res.write(array[i] + "\n");
     }
     
     var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
     for(i in array) {
-        res.write(array[i]);
+        res.write(array[i] + "\n");
     }
       res.write("<div class='span9' style='padding-top:75px;'>");
       res.write('<p>Welcome back ' + userInfo.fullname + '!</p>');
@@ -132,17 +139,17 @@ app.get('/authfail', function(req, res){
   
   var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
   
   var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
   
   var array = fs.readFileSync(__dirname + '/system/content/util/waitstaff-login-failed.html').toString().split("\n");
   for(i in array) {
-      res.write(array[i]);
+      res.write(array[i] + "\n");
   }
   
   res.end('</body></html>');
