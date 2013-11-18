@@ -21,4 +21,6 @@ To-Do List
 
 [ ] Mobile menu for use by Patrons
 
+[ ] Ability to order apitizers online to be cooked when the person arrives <Possible Patron Panel>
+
 [ ] And more...
