@@ -8,171 +8,124 @@ var qs = require('querystring');
 var app = express();
 app.use(connect.bodyParser());
 app.use(express.cookieParser());
-
-//app.use(express.session());
 app.use(express.session({secret: "alphaalpha"}));
 
-// Create your databases should they not exist.
-//var ordersDB = new sqlite3.Database(__dirname + "/system/databases/orders.db");
+var getLogin = function(username) {
+    var data = '';
+	console.log('username: ' + username);
+    data += '<script type="text/javascript">';
+	if (username != null) {
+	  data += 'document.getElementById("loggedout").style.visibility="hidden";';
+	  data += 'document.getElementById("usernamedisp").href="/user";document.getElementById("usernamedisp").innerHTML="' + username + '";';
+	} else {
+	  data += 'document.getElementById("loggedin").style.visibility="hidden";';
+	}
+	data += '</script>';
+	return data;
+  };
 
-//  ordersDB.serialize(function() {
-//  usersDB.run("CREATE TABLE orders (id AutoNumber)");
+var getPage = function(pagename) {
+    var data = '';
+    var chunk = fs.readFileSync(__dirname + '/system/content/page/' + pagename + '.html').toString().split("\n");
+	for(i in chunk) {
+      data += chunk[i] + "\n";
+    }
+	return data;
+  };
 
-//  var stmt = usersDB.prepare("INSERT INTO lorem VALUES (?)");
-//  for (var i = 0; i < 10; i++) {
-//      stmt.run("Ipsum " + i);
-//  }
-//  stmt.finalize();
+var getBlock = function(blockname) {
+    var data = "";
+    var chunk = fs.readFileSync(__dirname + '/system/content/blocks/' + blockname + '.html').toString().split("\n");
+	for(i in chunk) {
+      data += chunk[i] + "\n";
+    }
+	return data;
+  };
 
-//  usersDB.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
-//      console.log(row.id + ": " + row.info);
-//  });
-//});
-
-//usersDB.close();
-
+var chgClass = function(id, classname) {
+  var data = '<script type="text/javascript">function changeClass(){document.getElementById("' + id + '").className = "' + classname + '";};changeClass();</script>'
+  return data;
+  };
+ 
+var chgText = function(id, text) {
+  var data = '<script type="text/javascript">document.getElementById("' + id + '").innerHTML="' + text + '"';
+  return data;
+  };
 
 app.get('/', function(req, res){
-
-  var autoReload = req.query.ar;
-  
-  console.log(autoReload);
   res.writeHead(200, {'Content-Type': 'text/html'});
-
-  if(req.query.ar == "true") {
-    res.write("<head>");
-    res.write("<!--AutoReload is ON-->");
-    res.write('<meta http-equiv="refresh" content="5"/>');
-    res.write('');
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/page/homepage.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-  
+  res.write(getBlock('header'));
+  res.write(getBlock('mainmenu'));
+  res.write(getBlock('usermenu'));
+  res.write(getPage('homepage'));
+  res.write(chgClass('home', 'active'));
+  res.write(getLogin(req.session.wid));
+  res.write(getBlock('footer'));
   res.end('</body></html>');
 });
 
 app.get('/waitstaff', function(req, res){
-
   res.writeHead(200, {'Content-Type': 'text/html'});
- 
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-
-  if(req.session.wauth) {
-    res.write("<div class='span9' style='padding-top:75px;'>");
-    res.write('You are logged in as: ' + req.session.wauth + '. ');
-    res.write('</div>');
-
-  } else {
-
-    var array = fs.readFileSync(__dirname + '/system/content/util/waitstaff-login.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i] + "\n");
-    }
-  }
-  
+  res.write(getBlock('header'));
+  res.write(getBlock('mainmenu'));
+  res.write(getBlock('usermenu'));
+  res.write(getPage('waitstaff-login'));
+  res.write(chgClass('waitstaff', 'active'));
+  res.write(getLogin(req.session.wid));
+  res.write(getBlock('footer'));
   res.end('</body></html>');
 });
 
 app.post('/waitstaff', function(req, res){
-  var pin = req.body.pin;
-  var profileLoc = __dirname + '/system/pins/' + pin + '.json';
+  var wid = req.session.wid;
+  var profileLoc = __dirname + '/system/wids/' + wid + '.json';
   
   fs.readFile(profileLoc, 'utf8', function (err, data) {
     console.log('Waitstaff Authentication Recieved');
-    console.log('Authenticating Pin: ' + req.body.pin);
+    console.log('Verifying WID: ' + req.body.wid);
     if (err) {
-      console.log('Pin was not found!!');
-      console.log('Displaying Authentication Failure Notice!');
-      res.write('Your Username or Password was Incorrect!');
+      console.log('WID was not found!!');
+      console.log('Booting the person back to login screen!');
+	  req.session.authfail = 'true';
       res.redirect('/authfail');
     } else {
-      console.log('We found a profile for the user!');
+      console.log('Found a WID match, logging in!');
       var userInfo = JSON.parse(data);
-      authenticate(userInfo);
-    }
-  });
-
-  function authenticate(userInfo) {   
-    req.session.wauth = req.body.pin;
-  
-    var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i] + "\n");
-    }
-    
-    var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i] + "\n");
-    }
+	  req.session.wauth = req.body.pin;
+      res.write(getBlock('header'));    
+      res.write(getBlock('mainmenu'));
+	  res.write(getBlock('usermenu'));
       res.write("<div class='span9' style='padding-top:75px;'>");
       res.write('<p>Welcome back ' + userInfo.fullname + '!</p>');
-      res.write('<p>You were born on the date: ' + userInfo.dateofbirth + '!</p>');
-      res.write('</div>');
-    
-    res.end('</body></html>');
+      res.write(chgClass('waitstaff', 'active'));
+      res.write(getLogin(req.session.wid));
+      res.write(getBlock('footer'));
+      res.end('</body></html>');
   }
+ });
 });
 
 app.get('/authfail', function(req, res){
   res.writeHead(200, {'Content-Type': 'text/html'});
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/util/waitstaff-login-failed.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i] + "\n");
-  }
-  
+  res.write(getBlock('header'));    
+  res.write(getBlock('mainmenu'));
+  res.write(getBlock('usermenu'));
+  res.write(getPage('waitstaff-login-failed'));
+  res.write(chgClass('waitstaff', 'active'));
+  res.write(getLogin(req.session.wid));
+  res.write(getBlock('footer'));
   res.end('</body></html>');
 });
 
 app.get('/kitchen', function(req, res){
   res.writeHead(200, {'Content-Type': 'text/html'});
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/dashboard/kitchen.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
-  }
-  
+  res.write(getBlock('header'));    
+  res.write(getBlock('mainmenu'));
+  res.write(getBlock('usermenu'));
+  res.write(getPage('kitchen'));
+  res.write(chgClass('waitstaff', 'active'));
+  res.write(getLogin(req.session.wid));
+  res.write(getBlock('footer'));
   res.end('</body></html>');
 });
 
@@ -180,32 +133,19 @@ app.get('/kitchen', function(req, res){
 
 app.get('/admin', function(req, res){
   res.writeHead(200, {'Content-Type': 'text/html'});
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
-  }
-  
-  var array = fs.readFileSync(__dirname + '/system/content/util/admin-login.html').toString().split("\n");
-  for(i in array) {
-      res.write(array[i]);
-  }
-  
+  res.write(getBlock('header'));    
+  res.write(getBlock('mainmenu'));
+  res.write(getBlock('usermenu'));
+  res.write(getBlock('admin-login'));
+  res.write(chgClass('waitstaff', 'active'));
+  res.write(getLogin(req.session.wid));
+  res.write(getBlock('footer'));
   res.end('</body></html>');
 });
 
 app.post('/logout', function(req, res){
-  res.clearCookie('loggedin');
+  res.session.admusr = null;
+  res.redirect('/admin/login');
 });
 
 app.post('/admin/login', function(req, res){
@@ -222,39 +162,21 @@ app.post('/admin/login', function(req, res){
     } else {
       console.log('We found a profile for the user!');
       var userInfo = JSON.parse(data);
-      authenticate();
+	  res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(getBlock('header'));    
+      res.write(getBlock('mainmenu'));
+      res.write(getBlock('usermenu'));
+      if (usernameIn == "root" && passwordIn == "pass") {
+        res.write('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
+      } else {
+        res.write('Your Username or Password was Incorrect!');
+      }
+	  res.write(chgClass('waitstaff', 'active'));
+      res.write(getLogin(req.session.wid));
+	  res.write(getBlock('footer'));
+      res.end('</body></html>');
     }
   });
-  
-  // The following line is used for debugging purposes only!
-  console.log('Username: ' + usernameIn + ' Password: ' + passwordIn);
-
-  function authenticate() {   
-    res.writeHead(200, {'Content-Type': 'text/html'});
-  
-    var array = fs.readFileSync(__dirname + '/system/content/blocks/header.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i]);
-    }
-    
-    var array = fs.readFileSync(__dirname + '/system/content/blocks/mainmenu.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i]);
-    }
-  
-    var array = fs.readFileSync(__dirname + '/system/content/blocks/sidemenu.html').toString().split("\n");
-    for(i in array) {
-        res.write(array[i]);
-    }
-  
-    if (usernameIn == "root" && passwordIn == "pass") {
-      res.write('Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
-    } else {
-      res.write('Your Username or Password was Incorrect!')
-    }
-    
-    res.end('</body></html>');
-  }
 });
 
 //END Administrator Login Functions
