@@ -1,27 +1,27 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
-		<a class="brand" href="#">Waitress.js</a>
-		<!--<p class="navbar-text pull-right">Logged in as <a href="#" class="navbar-link">Username</a></p>-->
-		<p class="navbar-text pull-right">Not Logged in <a href="#" "navbar-link">(Login)</a></p>
+		<a class="brand" href="/">HypeHost's RPSS</a>
+		<p id="loggedin" class="navbar-text pull-right">Logged in as <a href="#" class="navbar-link" id="usernamedisp">ERROR!</a></p>
+		<p id="loggedout" class="navbar-text pull-right"><a class="btn btn-sucess" href="/user/login">Waitress Login</a><a class="btn btn-success" href="/user/register">Admin Login</a></p>
 			<div class="navbar-content">
 				<div id="nav-collapse collapse">
 					<ul class="nav">
-						<li class='active'>
-						<a href="/" title="You found a secret message!">
-							<!--<i class="icon-home"></i>-->Home</a>
+						<li id='home'>
+						<a href="/" title="Back to our Homepage!">
+							<i class="icon-home"></i>Home</a>
 						</li>
-						<li>
-						<a href="/waitstaff" title="Link to the Waitstaff Dashboard">
-							<!--<i class="icon-comment"></i>-->Waitstaff</a>
+						<li id='waitstaff'>
+						<a href="/waitstaff" title="See the Members of the server!">
+							<i class="icon-user"></i>Waitstaff</a>
 						</li>
-						<li>
-						<a href="/kitchen" title="Link to the Kitchen Display">
-							<!--<i class="icon-cog"></i>-->Kitchen</a>
+						<li id='kitchen'>
+						<a href="/kitchen" title="Chat with your friends in game!">
+							<i class="icon-comment"></i>Kitchen</a>
 						</li>
-						<li>
+						<li id='admin'>
 						<a href="/admin" title="Link to the Administrator Login">
-							<!--<i class="icon-question-sign"></i>-->Administrator</a>
+							<i class="icon-question-sign"></i>Administrator</a>
 						</li>
 						<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Assistance <b class="caret"></b></a>
@@ -47,10 +47,6 @@
 							<a href="http://xblaze.net">About the Author</a>
 							</li>
 						</ul>
-						</li>
-						<li>
-						<a href="http://github.com/xBlazeTECH/waitress.js" title="Link to the Github Page">
-							<!--<i class="icon-question-sign"></i>-->Help</a>
 						</li>
 					</ul>
 				</div>

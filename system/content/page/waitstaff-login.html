@@ -1,10 +1,30 @@
 <div class="span9" style="padding-top:75px;">
-<h1>Waitstaff Dashboard</h1>
+	<h1>Waitstaff Dashboard</h1>
+	<script type="text/javascript">
 
-<form action='/waitstaff' method='post'>
-<label>Please Enter Your PIN:</label>
-<div class="input-append">
-<input class="input-small" type="text" id="pin" name="pin">
-<input class="btn" type="submit" value="Go!">
-</div>
+		function addNum(numeral) {
+			document.getElementById("widbox").value += numeral;
+			document.getElementById("clearbtn").className = "btn btn-huge btn-danger";
+			document.getElementById("clearbtn").value = "X";
+			document.getElementById("login").className = "btn btn-huge btn-success";
+			document.getElementById("login").value = ">";
+			}
+		function clearIt() {
+			document.getElementById("widbox").value = "";
+			document.getElementById("clearbtn").className = "btn btn-huge disabled";
+			document.getElementById("clearbtn").value = "  ";
+			document.getElementById("login").className = "btn btn-huge disabled";
+			document.getElementById("login").value = "  ";
+			}
+    </script>
+	<form action='/waitstaff/login' method='post'>
+	<label>Please Enter Your PIN:</label>
+	<div class="input-append">
+		<input id="widbox" class="input-medium" type="text" name="wid"><br><br>
+		<input type="button" class="btn btn-huge" onclick="addNum(7);" value="7" ></input><input type="button" class="btn btn-huge " onclick="addNum(8);" value="8" ></input><input type="button" class="btn btn-huge " onclick="addNum(9);" value="9" ></input><br>
+		<input type="button" class="btn btn-huge " onclick="addNum(4);" value="4" ></input><input type="button" class="btn btn-huge " onclick="addNum(5);" value="5" ></input><input type="button" class="btn btn-huge " onclick="addNum(6);" value="6" ></input><br>
+		<input type="button" class="btn btn-huge " onclick="addNum(1);" value="1" ></input><input type="button" class="btn btn-huge " onclick="addNum(2);" value="2" ></input><input type="button" class="btn btn-huge " onclick="addNum(3);" value="3" ></input><br>
+		<input id="clearbtn" type="button" class="btn btn-huge disabled" onclick="clearIt(1);" value="&nbsp;&nbsp;" ></input><input type="button" class="btn btn-huge " onclick="addNum(1);" value="0" ></input><input id="login" type="submit" class="btn btn-huge disabled" value=">" ></input>
+	</div>
+	</form>
 </div>
