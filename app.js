@@ -1,10 +1,14 @@
-// Make sure that we have everything we need!
+/*
+ * Import all of the required libraries.
+ */
 var express = require('express');
 var connect = require('connect');
 var fs = require('fs');
 var qs = require('querystring');
 
-// Set Up Express Application!
+/*
+ * Set Up Express Application!
+ */
 var app = express();
 app.use(connect.bodyParser());
 app.use(express.cookieParser());
