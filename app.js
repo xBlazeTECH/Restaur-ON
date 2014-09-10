@@ -3,17 +3,20 @@
  */
 var express = require('express');
 var connect = require('connect');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var qs = require('querystring');
+var session = require('express-session');
 
 /*
  * Set Up Express Application!
  */
 var app = express();
-app.use(connect.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({secret: "alphaalpha"}));
-app.use(express.favicon(__dirname + "/system/content/img/favicon.ico"));
+app.use(bodyParser());
+app.use(cookieParser("hello"));
+app.use(session({secret: "alphaalpha"}));
+// app.use(express.favicon(__dirname + "/system/content/img/favicon.ico"));
 
 var getLogin = function(username) {
     var data = '';
@@ -78,16 +81,16 @@ app.get('/', function(req, res){
 });
 
 app.get('/waitstaff', function(req, res){
- /* if (req.query.t) {
+  /*if (req.query.t) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(getBlock('header'));
     res.write(getBlock('mainmenu'));
-	res.write(getPage('waitstaff-table-select'));
-	res.write(getLogin(req.session.wauth));
-	res.write(getBlock('footer'));
+	  res.write(getPage('waitstaff-table-select'));
+	  res.write(getLogin(req.session.wauth));
+	  res.write(getBlock('footer'));
     res.end('</body></html>');
   } else { */
-    if (!req.session.wauth) {
+    if (!req.session.wid) {
       res.redirect('/waitstaff/login');
       res.end();
     } else {
@@ -95,11 +98,11 @@ app.get('/waitstaff', function(req, res){
       res.write(getBlock('header'));
       res.write(getBlock('mainmenu'));
 	  res.write(getPage('waitstaff'));
-	  res.write(getLogin(req.session.wauth));
+	  res.write(getLogin(req.session.wid));
 	  res.write(getBlock('footer'));
       res.end('</body></html>');
     }
-  //}
+  /*}*/
 });
 
 app.get('/waitstaff/login', function(req, res){
@@ -109,7 +112,7 @@ app.get('/waitstaff/login', function(req, res){
   res.write(getBlock('usermenu'));
   res.write(getPage('waitstaff-login'));
   res.write(chgClass('waitstaff', 'active'));
-  res.write(getLogin(req.session.wauth));
+  res.write(getLogin(req.session.wid));
   res.write(getBlock('footer'));
   res.end('</body></html>');
 });
@@ -122,15 +125,15 @@ app.post('/waitstaff/login', function(req, res){
     console.log('Waitstaff Authentication Recieved');
     console.log('Verifying WID: ' + req.body.wid);
     if (err) {
-	  console.log(err);
+	    console.log(err);
       console.log('WID was not found!!');
       console.log('Booting the person back to login screen!');
-	  req.session.authfail = 'true';
+	    req.session.authfail = 'true';
       res.redirect('/authfail');
     } else {
       console.log('Found a WID match, logging in!');
       var userInfo = JSON.parse(data);
-	  req.session.wauth = req.body.wid;
+	    req.session.wid = req.body.wid;
       res.redirect('/waitstaff');
   }
  });
@@ -143,7 +146,7 @@ app.get('/authfail', function(req, res){
   res.write(getBlock('usermenu'));
   res.write(getPage('waitstaff-login-failed'));
   res.write(chgClass('waitstaff', 'active'));
-  res.write(getLogin(req.session.wauth));
+  res.write(getLogin(req.session.wid));
   res.write(getBlock('footer'));
   res.end('</body></html>');
 });
@@ -173,8 +176,8 @@ app.get('/admin', function(req, res){
 });
 
 app.get('/logout', function(req, res){
-  res.session.wid = null;
-  res.session.admusr = null;
+  req.session.wid = null;
+  req.session.admusr = null;
   res.redirect('/');
 });
 
@@ -270,5 +273,5 @@ app.get('/hi', function(req, res){
 });
 */
 
-app.listen(3000);
-console.log('Listening on port 3000');
+app.listen(process.env.PORT);
+console.log('Listening on port ' + process.env.PORT);
