@@ -164,10 +164,41 @@ app.get('/kitchen', function(req, res){
 //BEGIN Administrator Login Functions
 
 app.get('/admin', function(req, res){
+    if (!req.session.wid) {
+      res.redirect('/admin/login');
+      res.end();
+    } else {
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		res.write(getBlock('header'));
+		res.write(getBlock('mainmenu'));
+		res.write(getBlock('usermenu'));
+		res.write(getPage('admin-login'));
+		res.write(chgClass('admin', 'active'));
+		res.write(getLogin(req.session.admusr));
+		res.write(getBlock('footer'));
+		res.end('</body></html>');
+    }
+
+});
+
+app.get('/admin/login', function(req, res){
   res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write(getBlock('header'));    
+  res.write(getBlock('header'));
   res.write(getBlock('mainmenu'));
   res.write(getBlock('usermenu'));
+  res.write(getPage('admin-login'));
+  res.write(chgClass('admin', 'active'));
+  res.write(getLogin(req.session.admusr));
+  res.write(getBlock('footer'));
+  res.end('</body></html>');
+});
+
+app.get('/admin/login/f', function(req, res){
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write(getBlock('header'));
+  res.write(getBlock('mainmenu'));
+  res.write(getBlock('usermenu'));
+  res.write('<script> var failed = true;\n');
   res.write(getPage('admin-login'));
   res.write(chgClass('admin', 'active'));
   res.write(getLogin(req.session.admusr));
@@ -191,23 +222,16 @@ app.post('/admin', function(req, res){
     if (err) {
       console.log('User file not found for ' + usernameIn + '!');
       console.log('Displaying Authentication Failure Notice!');
-      res.send('Your Username or Password was Incorrect!');
+      res.redirect('admin/login/f');
     } else {
       console.log('We found a profile for the user!');
       var userInfo = JSON.parse(data);
-	  res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(getBlock('header'));    
-      res.write(getBlock('mainmenu'));
-      res.write(getBlock('usermenu'));
-      if (usernameIn == "root" && passwordIn == "pass") {
-        res.write('<div class="span9" style="padding-top:70px;">Authentication Sucessful! You are now logged in as ' + req.body.user + '!');
+	  if (usernameIn == "root" && passwordIn == "pass") {
+        res.redirect('admin');
       } else {
-        res.write('<div class="span9" style="padding-top:70px;">Your Username or Password was Incorrect!');
+        res.redirect('admin/login/f');
       }
-	  res.write(chgClass('admin', 'active'));
-      res.write(getLogin(req.session.wid));
-	  res.write(getBlock('footer'));
-      res.end('</body></html>');
+      res.end();
     }
   });
 });
@@ -230,7 +254,7 @@ app.get('/tables/:tnum', function(req,res) {
 app.get('/css', function(req, res){
   var filename = req.query.q;
   var theme = req.query.theme;
-  var array = fs.readFileSync(__dirname + '/system/content/themes/' + theme + '/' + filename + '.css').toString().split("\n");
+  var array = fs.readFileSync(__dirname + '/system/content/css/' + filename + '.css').toString().split("\n");
   for(i in array) {
       res.write(array[i]);
   }
@@ -257,7 +281,7 @@ app.get('/js', function(req, res){
 app.get('/file', function(req, res){
   var filename = req.query.q;
   var extention = req.query.ext;
-  var array = fs.readFileSync(__dirname + '/system/content/files/' + filename + '.' + extention).toString().split("\n");
+  var array = fs.readFileSync(__dirname + '/system/content/public/' + filename + '.' + extention).toString().split("\n");
   for(i in array) {
       res.write(array[i]);
   }
@@ -273,5 +297,13 @@ app.get('/hi', function(req, res){
 });
 */
 
-app.listen(process.env.PORT);
-console.log('Listening on port ' + process.env.PORT);
+var port = 8000;
+
+if (process.env.PORT) {
+  port = process.env.PORT;
+} else {
+  port = 8000;
+}
+
+app.listen(port);
+console.log('Listening on port ' + port);

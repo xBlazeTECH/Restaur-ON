@@ -1,166 +1,97 @@
-<div class="container-fluid">
-	<div class="row-fluid" style="padding-top:60px;">
-		<h1>Waitstaff Dashboard</h1>
-		<div class="span2">
-			<div class="well sidebar-nav">
-				<ul class="nav nav-list">
-					<li class="nav-header">Available Actions:</li>
-					<li>
-						<a href="#startersnstuff" data-toggle="modal">Add an Item<i class="icon-plus-sign pull-right"></i></a>
-					</li>
-					<li>
-						<a href="#">Edit an Item<i class="icon-minus-sign pull-right"></i></a>
-					</li>
-					<li>
-						<a href="#">Delete an Item<i class="icon-remove-sign pull-right"></i></a>
-					</li>
-					<!--<li>
-						<a href="#">Order 5<i class="icon-chevron-right"></i></a>
-					</li>-->
-						<li class="nav-header">Finished Orders:<br></li>
-					<li>
-						<a href="#">Order 4<i class="icon-chevron-right"></i></a>
-					</li>
-					<li>
-						<a href="#">Order 3<i class="icon-chevron-right"></i></a>
-					</li>
-					<li>
-						<a href="#">Order 2<i class="icon-chevron-right"></i></a>
-					</li>
-					<li>
-						<a href="#"><i class="icon-plus-sign"></i>See All</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>		
+<script>
 
-<script type="javascript">
-$(function(){
-	var $write = $('#write'),
-		shift = false,
-		capslock = false;
-	
-	$('#keyboard li').click(function(){
-		var $this = $(this),
-			character = $this.html(); // If it's a lowercase letter, nothing happens to this variable
-		
-		// Shift keys
-		if ($this.hasClass('left-shift') || $this.hasClass('right-shift')) {
-			$('.letter').toggleClass('uppercase');
-			$('.symbol span').toggle();
-			
-			shift = (shift === true) ? false : true;
-			capslock = false;
-			return false;
-		}
-		
-		// Caps lock
-		if ($this.hasClass('capslock')) {
-			$('.letter').toggleClass('uppercase');
-			capslock = true;
-			return false;
-		}
-		
-		// Delete
-		if ($this.hasClass('delete')) {
-			var html = $write.html();
-			
-			$write.html(html.substr(0, html.length - 1));
-			return false;
-		}
-		
-		// Special characters
-		if ($this.hasClass('symbol')) character = $('span:visible', $this).html();
-		if ($this.hasClass('space')) character = ' ';
-		if ($this.hasClass('tab')) character = "\t";
-		if ($this.hasClass('return')) character = "\n";
-		
-		// Uppercase letter
-		if ($this.hasClass('uppercase')) character = character.toUpperCase();
-		
-		// Remove shift once a key is clicked.
-		if (shift === true) {
-			$('.symbol span').toggle();
-			if (capslock === false) $('.letter').toggleClass('uppercase');
-			
-			shift = false;
-		}
-		
-		// Add the character
-		$write.html($write.html() + character);
-	});
+var ctrlpnl = '';
+
+
+function activate(selection) {
+	if (selection == "actions") {
+		$( "#listitem" ).removeClass( "active" );
+		$( "#additem" ).removeClass( "active" );
+		$( "#actions" ).addClass( "active" );
+		$( "#content" ).html( ctrlpnl );
+	}
+	if (selection == "listitem") {
+		$( "#actions" ).removeClass( "active" );
+		$( "#additem" ).removeClass( "active" );
+		$( "#listitem" ).addClass( "active" );
+		$( "#content" ).html( "<a href='#' onClick='changes();'> Make Changes </a>" );
+	}
+	if (selection == "additem") {
+		$( "#actions" ).removeClass( "active" );
+		$( "#listitem" ).removeClass( "active" );
+		$( "#additem" ).addClass( "active" );
+		$( "#content" ).html( "Test3" );
+	}
+}
+
+function saveNoQuit() {
+	$( "#saveNoQuit" ).addClass( "disabled" );
+	$( "#saveNoQuit" ).removeClass( "btn-primary" );
+	$( "#saveNoQuit" ).html( "Saved!" );
+}
+
+function changes() {
+	$( "#saveNoQuit" ).removeClass( "disabled" );
+	$( "#saveNoQuit" ).addClass( "btn-primary" );
+	$( "#saveNoQuit" ).html( "Save" );
+}
+
+$(window).load(function () {
+	activate("actions");
 });
 </script>
 
-
-<div aria-hidden="true" aria-labelledby="myModal" class="modal modal-big hide fade" id="startersnstuff" role="dialog" tabindex="-1">
+<div class="container-fluid">
+	<div class="row-fluid" style="padding-top:60px;">
+		<h1>Waitstaff Dashboard</h1>
+		<p>This is text</p>
+		<a href="#table1" data-toggle="modal">Table 1</a>
+	</div>
+</div>		
+<div aria-hidden="true" aria-labelledby="myModal" class="modal modal-big hide fade" id="table1" role="dialog" tabindex="-1">
 	<div class="modal-header">
 		<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
-		<h3 id="myModal">Find and Add an Item</h3>
+		<h3 id="myModal">Table 1</h3>
 	</div>
 	<div class="modal-body">
-		<textarea id="write"></textarea>
-		<ul id="keyboard">
-			<li class="symbol"><span class="off">`</span><span class="on">~</span></li>
-			<li class="symbol"><span class="off">1</span><span class="on">!</span></li>
-			<li class="symbol"><span class="off">2</span><span class="on">@</span></li>
-			<li class="symbol"><span class="off">3</span><span class="on">#</span></li>
-			<li class="symbol"><span class="off">4</span><span class="on">$</span></li>
-			<li class="symbol"><span class="off">5</span><span class="on">%</span></li>
-			<li class="symbol"><span class="off">6</span><span class="on">^</span></li>
-			<li class="symbol"><span class="off">7</span><span class="on">&amp;</span></li>
-			<li class="symbol"><span class="off">8</span><span class="on">*</span></li>
-			<li class="symbol"><span class="off">9</span><span class="on">(</span></li>
-			<li class="symbol"><span class="off">0</span><span class="on">)</span></li>
-			<li class="symbol"><span class="off">-</span><span class="on">_</span></li>
-			<li class="symbol"><span class="off">=</span><span class="on">+</span></li>
-			<li class="delete lastitem">delete</li>
-			<li class="tab">tab</li>
-			<li class="letter">q</li>
-			<li class="letter">w</li>
-			<li class="letter">e</li>
-			<li class="letter">r</li>
-			<li class="letter">t</li>
-			<li class="letter">y</li>
-			<li class="letter">u</li>
-			<li class="letter">i</li>
-			<li class="letter">o</li>
-			<li class="letter">p</li>
-			<li class="symbol"><span class="off">[</span><span class="on">{</span></li>
-			<li class="symbol"><span class="off">]</span><span class="on">}</span></li>
-			<li class="symbol lastitem"><span class="off">\</span><span class="on">|</span></li>
-			<li class="capslock">caps lock</li>
-			<li class="letter">a</li>
-			<li class="letter">s</li>
-			<li class="letter">d</li>
-			<li class="letter">f</li>
-			<li class="letter">g</li>
-			<li class="letter">h</li>
-			<li class="letter">j</li>
-			<li class="letter">k</li>
-			<li class="letter">l</li>
-			<li class="symbol"><span class="off">;</span><span class="on">:</span></li>
-			<li class="symbol"><span class="off">'</span><span class="on">&quot;</span></li>
-			<li class="return lastitem">return</li>
-			<li class="left-shift">shift</li>
-			<li class="letter">z</li>
-			<li class="letter">x</li>
-			<li class="letter">c</li>
-			<li class="letter">v</li>
-			<li class="letter">b</li>
-			<li class="letter">n</li>
-			<li class="letter">m</li>
-			<li class="symbol"><span class="off">,</span><span class="on">&lt;</span></li>
-			<li class="symbol"><span class="off">.</span><span class="on">&gt;</span></li>
-			<li class="symbol"><span class="off">/</span><span class="on">?</span></li>
-			<li class="right-shift lastitem">shift</li>
-			<li class="space lastitem">&nbsp;</li>
+		<ul class="nav nav-tabs" role="tablist">
+			<li id="actions" class="active"><a href="#" onClick="activate('actions');">Actions</a></li>
+			<li id="listitem" ><a href="#" onClick="activate('listitem');">List Items</a></li>
+			<li id="additem" ><a href="#" onClick="activate('additem');">Add Item</a></li>
 		</ul>
+		<p id="content">
+			<div class="list-group">
+				<a class="list-group-item active" href="#">
+					<h4 class="list-group-item-heading">
+						This is a Action Number 1.
+					</h4>
+					<p class="list-group-item-text">
+						This is some text to display.
+					</p>
+				</a>
+				<a class="list-group-item active" href="#">
+					<h4 class="list-group-item-heading">
+						This is a Action Number 2.
+					</h4>
+					<p class="list-group-item-text">
+						This is some text to display.
+					</p>
+				</a>
+				<a class="list-group-item active" href="#">
+					<h4 class="list-group-item-heading">
+						This is a Action Number 3.
+					</h4>
+					<p class="list-group-item-text">
+						This is some text to display.
+					</p>
+				</a>
+			</div>
+		</p>
 	</div>
 	<div class="modal-footer">
-    <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">Cancel</button><button aria-hidden="true" class="btn btn-primary">Save</button><button type="submit" aria-hidden="true" class="btn btn-success" data-dismiss="modal">Save &amp; Quit</button>
+    <button id="cancelAndQuit" aria-hidden="true" class="btn btn-default" data-dismiss="modal">Cancel</button>
+	<button id="saveNoQuit" aria-hidden="true" class="btn disabled" onClick="saveNoQuit();">Save</button>
+	<button id="saveAndQuit" aria-hidden="true" class="btn btn-success" data-dismiss="modal" >Save &amp; Quit</button>
 	</div>
 </div>
-</div>
+</body>
